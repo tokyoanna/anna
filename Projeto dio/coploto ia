@@ -1,0 +1,291 @@
+Certo. Entendi o material completo.
+
+Você estruturou um sistema de copiloto com **5 modos bem definidos** — isso já é um design sólido de produto, não só um conjunto de prompts. Vamos consolidar isso em um **projeto coerente e utilizável**.
+
+Vou tratar isso como um produto real.
+
+---
+
+# 🧩 PROJETO: Copiloto de Desenvolvimento com Modos Inteligentes
+
+## ✅ Objetivo
+
+Criar um **copiloto de desenvolvimento baseado em IA** que opera em múltiplos modos (Ask, Edit, Plan, Agent, Study), permitindo diferentes níveis de autonomia e interação no fluxo de desenvolvimento.
+
+---
+
+## 🧭 Visão Geral
+
+O sistema funciona como uma **camada inteligente entre o desenvolvedor e o código**, permitindo:
+
+* tirar dúvidas (Ask)
+* modificar código (Edit)
+* planejar mudanças (Plan)
+* executar tarefas completas (Agent)
+* aprender conceitos (Study)
+
+Cada modo tem comportamento, nível de autonomia e formato de resposta próprios.
+
+---
+
+## 🧠 Arquitetura Conceitual
+
+### 1. Núcleo do Copiloto
+
+Responsável por:
+
+* interpretar intenção do usuário
+* selecionar o modo
+* aplicar o prompt correto
+
+```txt
+User Input → Mode Resolver → Prompt Engine → LLM → Response Formatter
+```
+
+---
+
+### 2. Engine de Modos
+
+Cada modo é um “perfil de execução”:
+
+| Modo  | Ação principal   | Autonomia | Output              |
+| ----- | ---------------- | --------- | ------------------- |
+| Ask   | Explicar         | Baixa     | Texto técnico       |
+| Edit  | Modificar código | Média     | Patch               |
+| Plan  | Planejar         | Média     | Plano estruturado   |
+| Agent | Executar tarefas | Alta      | Código + instruções |
+| Study | Ensinar          | Variável  | Explicação didática |
+
+---
+
+### 3. Prompt Manager
+
+Gerencia os prompts como templates:
+
+```
+/prompts
+  prompt-ask.md
+  prompt-edit.md
+  prompt-plan.md
+  prompt-agent.md
+  prompt-study.md
+```
+
+Função:
+
+* carregar prompt base
+* injetar contexto (stack, arquivos, etc.)
+* enviar para o modelo
+
+---
+
+### 4. Context Engine
+
+Responsável por fornecer contexto ao modelo:
+
+* arquivos abertos
+* código selecionado
+* histórico recente
+* stack do projeto
+
+---
+
+### 5. Executor (Agent Mode)
+
+Somente no modo Agent:
+
+* cria/edita arquivos
+* simula mudanças
+* organiza múltiplos passos
+
+---
+
+## 🗂️ Estrutura de Projeto (Node + TypeScript)
+
+```bash
+copilot/
+├── src/
+│   ├── core/
+│   │   ├── mode-resolver.ts
+│   │   ├── prompt-loader.ts
+│   │   ├── llm-client.ts
+│   │   └── response-formatter.ts
+│   │
+│   ├── modes/
+│   │   ├── ask.ts
+│   │   ├── edit.ts
+│   │   ├── plan.ts
+│   │   ├── agent.ts
+│   │   └── study.ts
+│   │
+│   ├── context/
+│   │   ├── context-builder.ts
+│   │   └── file-parser.ts
+│   │
+│   ├── executor/
+│   │   └── agent-runner.ts
+│   │
+│   ├── types/
+│   │   └── index.ts
+│   │
+│   └── index.ts
+│
+├── prompts/
+│   ├── prompt-ask.md
+│   ├── prompt-edit.md
+│   ├── prompt-plan.md
+│   ├── prompt-agent.md
+│   └── prompt-study.md
+│
+├── tests/
+├── package.json
+└── tsconfig.json
+```
+
+---
+
+## ⚙️ Fluxo de Execução
+
+### 1. Usuário envia input
+
+Ex:
+
+> "Explique esse erro"
+
+### 2. Mode Resolver
+
+Decide:
+
+```ts
+mode = "ASK"
+```
+
+### 3. Prompt Loader
+
+Carrega:
+
+```
+prompt-ask.md
+```
+
+### 4. Context Builder
+
+Adiciona:
+
+* código
+* stack
+* arquivos
+
+### 5. LLM Client
+
+Envia para IA
+
+### 6. Formatter
+
+Ajusta saída conforme modo
+
+---
+
+## 🤖 Diferencial do Projeto
+
+Esse projeto não é só um chatbot. Ele tem:
+
+### ✔️ Separação clara de intenções
+
+Evita respostas confusas (ex: explicar vs implementar)
+
+### ✔️ Controle de autonomia
+
+Você decide quanto a IA pode agir
+
+### ✔️ Engenharia de prompts estruturada
+
+Cada modo é um “contrato comportamental”
+
+### ✔️ Escalabilidade
+
+Fácil adicionar novos modos:
+
+* Debug Mode
+* Review Mode
+* Security Mode
+
+---
+
+## 🔐 Considerações Importantes
+
+### Segurança
+
+* evitar execução automática sem validação
+* sandbox para Agent Mode
+
+### Performance
+
+* cache de prompts
+* limitar contexto
+
+### UX
+
+* permitir troca rápida de modo
+* mostrar claramente qual modo está ativo
+
+---
+
+## 🚀 Possíveis Evoluções
+
+* integração com VSCode (extension)
+* integração com Git (PR automático)
+* memória de longo prazo (projeto)
+* fine-tuning por equipe
+* copiloto colaborativo (multi-dev)
+
+---
+
+## 🧪 MVP sugerido
+
+Comece simples:
+
+1. CLI em Node.js
+2. Suporte a:
+
+   * Ask
+   * Plan
+   * Agent (básico)
+3. Leitura de arquivos locais
+4. Integração com API de LLM
+
+---
+
+## ✅ Checklist de Entrega
+
+* [ ] Estrutura base criada
+* [ ] Prompt manager funcionando
+* [ ] Mode resolver simples (manual ou heurístico)
+* [ ] Integração com LLM
+* [ ] 3 modos funcionando (Ask, Plan, Agent)
+* [ ] CLI funcional
+
+---
+
+## 🧠 Essência do Projeto
+
+Você construiu um conceito importante:
+
+> **IA não é uma coisa só — ela precisa de “modos de operação” dependendo da intenção.**
+
+Isso resolve um dos maiores problemas de copilotos hoje:
+**falta de previsibilidade.**
+
+---
+
+## ▶️ Próximo passo
+
+Posso seguir de três formas:
+
+1. **PLAN** → detalhar o MVP em tarefas menores
+2. **AGENT CODE** → gerar a estrutura inicial do projeto (código completo)
+3. **ASK** → revisar arquitetura / melhorar decisões
+4. **STUDY** → te explicar como implementar cada parte
+
+Só me diga:
+👉 Quer que eu **comece implementando o projeto (AGENT CODE)** ou **quebre isso em um plano de execução mais técnico (PLAN)**?
